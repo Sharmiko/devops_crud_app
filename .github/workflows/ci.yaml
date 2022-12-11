@@ -15,4 +15,6 @@ jobs:
           username: sharmi
           key: ${{ secrets.SSH_PRIVATE_KEY }}
           port: 22
-          script: ls
+          script: |
+            docker build -f docker/Dockerfile -t devops_crud_app .
+
