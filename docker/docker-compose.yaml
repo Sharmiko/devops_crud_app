@@ -1,0 +1,32 @@
+version: '3.4'
+
+services:
+  server:
+    image: devops_crud_app:latest
+    environment:
+      - PYTHONPATH=/app/
+    container_name: server
+    command: gunicorn main:app -w 4 -k uvicorn.workers.UvicornWorker -b 0.0.0.0:8080
+    network_mode: host
+
+  db:
+    image: postgres:14.1
+    restart: always
+    environment:
+      - POSTGRES_USER=postgres
+      - POSTGRES_PASSWORD=postgres
+    ports:
+      - '5433:5432'
+    volumes:
+      - db:/var/lib/postgresql/data
+
+
+networks:
+  server:
+    driver: overlay
+    attachable: true
+
+
+volumes:
+  db:
+    driver: local
