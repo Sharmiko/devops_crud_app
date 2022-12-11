@@ -4,9 +4,7 @@ on: [ push ]
 
 jobs:
   deploy:
-
     runs-on: ubuntu-latest
-
     steps:
       - name: executing remote ssh commands using ssh key
         uses: appleboy/ssh-action@v0.1.6
