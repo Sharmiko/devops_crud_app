@@ -16,5 +16,7 @@ jobs:
           key: ${{ secrets.SSH_PRIVATE_KEY }}
           port: 22
           script: |
+            cd devops_crud_app
+            git pull origin main
             docker build -f docker/Dockerfile -t devops_crud_app .
 
