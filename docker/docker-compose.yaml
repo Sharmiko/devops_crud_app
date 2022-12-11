@@ -5,20 +5,32 @@ services:
     image: devops_crud_app:latest
     environment:
       - PYTHONPATH=/app/
+      - POSTGRES_PORT=5432
+      - POSTGRES_PASSWORD=postgres
+      - POSTGRES_HOST=postgres_db
     container_name: server
-    command: gunicorn main:app -w 4 -k uvicorn.workers.UvicornWorker -b 0.0.0.0:8080
-    network_mode: host
+    depends_on:
+      - postgres_db
+    command: gunicorn main:app -w 4 -k uvicorn.workers.UvicornWorker -b 0.0.0.0:8000
+    ports:
+      - "8000:8000"
+    expose:
+      - 8000
+    networks:
+      - server
 
-  db:
+  postgres_db:
     image: postgres:14.1
+    container_name: postgres_db
     restart: always
     environment:
+      - POSTGRES_DB=devops_crud
       - POSTGRES_USER=postgres
       - POSTGRES_PASSWORD=postgres
-    ports:
-      - '5433:5432'
     volumes:
       - db:/var/lib/postgresql/data
+    networks:
+      - server
 
 
 networks:
