@@ -3,7 +3,7 @@ name: Python Application CI/CD
 on: [ push ]
 
 jobs:
-  test:
+  deploy:
 
     runs-on: ubuntu-latest
 
